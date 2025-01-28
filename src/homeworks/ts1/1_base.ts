@@ -27,11 +27,11 @@ export const getTransformFromCss = (transformCssString: string) => {
   };
 };
 
-export const getColorContrastValue = (red: number, green: number, blue: number): number =>
+export const getColorContrastValue = ([red, green, blue]: [number, number, number]): number =>
   // http://www.w3.org/TR/AERT#color-contrast
   Math.round((red * 299 + green * 587 + blue * 114) / 1000);
 
-export const getContrastType = (contrastValue: number): string => (contrastValue > 125 ? 'black' : 'white');
+export const getContrastType = (contrastValue: number): 'black' | 'white' => (contrastValue > 125 ? 'black' : 'white');
 
 export const shortColorRegExp = /^#[0-9a-f]{3}$/i;
 export const longColorRegExp = /^#[0-9a-f]{6}$/i;
@@ -54,10 +54,11 @@ export const hex2rgb = (color: string) => {
   return [red, green, blue];
 };
 
-export const getNumberedArray = (arr: []) => arr.map((value, number) => ({ value, number }));
-export const toStringArray = (arr: []) => arr.map(({ value, number }) => `${value}_${number}`);
+export const getNumberedArray = <T>(arr: T[]): { value: T; number: number }[] =>
+  arr.map((value, number) => ({ value, number }));
 
-// -----------------------------------
+export const toStringArray = <T>(arr: { value: T; number: number }[]) =>
+  arr.map(({ value, number }) => `${value}_${number}`);
 
 type TCustomer = {
   id?: number;
